@@ -112,6 +112,22 @@
   .ai-pick .name{font-size:.75rem;font-weight:600;margin-bottom:.15rem}
   .ai-pick .pp{font-size:1rem;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace}
 
+  /* Multi-step progress */
+  .steps{display:flex;align-items:center;justify-content:center;gap:0;margin:1.2rem 0;padding:0 1rem;display:none}
+  .steps.show{display:flex}
+  .step{display:flex;flex-direction:column;align-items:center;flex:1;position:relative;z-index:1}
+  .step .dot{width:32px;height:32px;border-radius:50%;background:var(--bg);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .4s;position:relative}
+  .step .dot.active{border-color:var(--a);background:rgba(99,102,241,.1);transform:scale(1.1);box-shadow:0 0 12px rgba(99,102,241,.2)}
+  .step .dot.done{border-color:var(--g);background:rgba(16,185,129,.1);transform:scale(1)}
+  .step .dot .check{display:none;color:var(--g);font-size:.7rem;font-weight:700}
+  .step .dot.done .emoji{display:none}
+  .step .dot.done .check{display:block}
+  .step .label{font-size:.55rem;color:var(--m);margin-top:.3rem;text-align:center;transition:color .3s}
+  .step .label.active{color:var(--a);font-weight:600}
+  .step .label.done{color:var(--g)}
+  .step-line{flex:1;height:2px;background:var(--b);margin:0 -.5rem;position:relative;top:-10px;z-index:0;transition:background .4s}
+  .step-line.done{background:var(--g)}
+
   .ft{text-align:center;padding:1.5rem 0;border-top:1px solid var(--b)}
   .ft p{color:var(--m);font-size:.7rem}
   .ft a{color:var(--a);text-decoration:none}
@@ -137,6 +153,23 @@
     <span class="tag" onclick="qs('Gaming laptop')">💻 Gaming Laptop</span>
     <span class="tag" onclick="qs('Nike Air Max')">👟 Nike Air Max</span>
     <span class="tag" onclick="qs('Air Fryer')">🍳 Air Fryer</span>
+  </div>
+
+  <!-- Multi-step progress -->
+  <div class="steps" id="steps">
+    <div class="step" id="st-amazon"><div class="dot"><span class="emoji">📦</span><span class="check">✓</span></div><div class="label">Amazon</div></div>
+    <div class="step-line" id="sl1"></div>
+    <div class="step" id="st-ebay"><div class="dot"><span class="emoji">🏷️</span><span class="check">✓</span></div><div class="label">eBay</div></div>
+    <div class="step-line" id="sl2"></div>
+    <div class="step" id="st-bestbuy"><div class="dot"><span class="emoji">🏪</span><span class="check">✓</span></div><div class="label">Best Buy</div></div>
+    <div class="step-line" id="sl3"></div>
+    <div class="step" id="st-walmart"><div class="dot"><span class="emoji">🛒</span><span class="check">✓</span></div><div class="label">Walmart</div></div>
+    <div class="step-line" id="sl4"></div>
+    <div class="step" id="st-target"><div class="dot"><span class="emoji">🎯</span><span class="check">✓</span></div><div class="label">Target</div></div>
+    <div class="step-line" id="sl5"></div>
+    <div class="step" id="st-google"><div class="dot"><span class="emoji">🛍️</span><span class="check">✓</span></div><div class="label">Google</div></div>
+    <div class="step-line" id="sl6"></div>
+    <div class="step" id="st-ai"><div class="dot"><span class="emoji">🧠</span><span class="check">✓</span></div><div class="label">Coasty AI</div></div>
   </div>
 
   <!-- Store Browser — visual scanning -->
@@ -198,21 +231,32 @@ async function search(){
   if(!q)return;
   const btn=document.getElementById('btn'),browser=document.getElementById('browser');
   const bUrl=document.getElementById('bUrl'),bBody=document.getElementById('bBody');
-  const results=document.getElementById('results');
+  const results=document.getElementById('results'),steps=document.getElementById('steps');
 
   btn.disabled=true;btn.textContent='⏳';
-  browser.classList.add('show');results.classList.remove('show');
+  browser.classList.add('show');steps.classList.add('show');results.classList.remove('show');
   bBody.innerHTML='';
+
+  const stepIds=['st-amazon','st-ebay','st-bestbuy','st-walmart','st-target','st-google','st-ai'];
+  const lineIds=['sl1','sl2','sl3','sl4','sl5','sl6'];
+
+  // Reset steps
+  stepIds.forEach(id=>{const el=document.getElementById(id);el.querySelector('.dot').className='dot';el.querySelector('.label').className='label'});
+  lineIds.forEach(id=>{document.getElementById(id).className='step-line'});
 
   // Animate through each store
   for(let i=0;i<stores.length;i++){
     const s=stores[i];
     const eq=encodeURIComponent(q);
 
+    // Activate current step
+    document.getElementById(stepIds[i]).querySelector('.dot').classList.add('active');
+    document.getElementById(stepIds[i]).querySelector('.label').classList.add('active');
+
     // Update URL bar
     bUrl.textContent=s.url+eq;
 
-    // Add store card with scanning state
+    // Add store card
     const card=document.createElement('div');
     card.className='store-card';
     card.innerHTML=`<div class="store-icon ${s.cls}">${s.icon}</div>
@@ -222,22 +266,35 @@ async function search(){
     await wait(100);
     card.classList.add('visible');
 
-    // Simulate scanning
     await wait(600+Math.random()*400);
 
-    // Update to done
+    // Mark done
     card.querySelector('.store-status').textContent=`${s.products} products found`;
     card.querySelector('.store-status').classList.add('done');
     card.querySelector('.store-badge').textContent='✓ Done';
     card.querySelector('.store-badge').className='store-badge done';
+
+    // Mark step done + line
+    document.getElementById(stepIds[i]).querySelector('.dot').classList.remove('active');
+    document.getElementById(stepIds[i]).querySelector('.dot').classList.add('done');
+    document.getElementById(stepIds[i]).querySelector('.label').classList.remove('active');
+    document.getElementById(stepIds[i]).querySelector('.label').classList.add('done');
+    if(lineIds[i])document.getElementById(lineIds[i]).classList.add('done');
   }
 
-  // Final step — AI analysis
+  // AI step
+  document.getElementById(stepIds[6]).querySelector('.dot').classList.add('active');
+  document.getElementById(stepIds[6]).querySelector('.label').classList.add('active');
   bUrl.textContent='coasty.ai/v1/predict — analyzing...';
-  await wait(600);
-  bUrl.textContent='Done! Found '+stores.reduce((a,s)=>a+s.products,0)+' products across '+stores.length+' stores';
+  await wait(800);
+  document.getElementById(stepIds[6]).querySelector('.dot').classList.remove('active');
+  document.getElementById(stepIds[6]).querySelector('.dot').classList.add('done');
+  document.getElementById(stepIds[6]).querySelector('.label').classList.remove('active');
+  document.getElementById(stepIds[6]).querySelector('.label').classList.add('done');
+  document.getElementById(lineIds[5]).classList.add('done');
 
-  // Show results
+  bUrl.textContent='Done! '+stores.reduce((a,s)=>a+s.products,0)+' products across '+stores.length+' stores';
+
   await wait(300);
   const products=genProducts(q);
   renderProducts(products,q);
