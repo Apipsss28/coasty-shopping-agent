@@ -7,185 +7,174 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
   *{margin:0;padding:0;box-sizing:border-box}
-  :root{--bg:#f8fafc;--surface:#fff;--card:#fff;--border:#e2e8f0;--accent:#6366f1;--accent2:#8b5cf6;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--text:#1e293b;--muted:#64748b;--shadow:0 1px 3px rgba(0,0,0,.06),0 1px 2px rgba(0,0,0,.04);--shadow-lg:0 10px 25px rgba(0,0,0,.08)}
-  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+  :root{--bg:#f0f4f8;--s:#fff;--card:#fff;--b:#e2e8f0;--a:#6366f1;--a2:#8b5cf6;--g:#10b981;--r:#ef4444;--y:#f59e0b;--t:#1e293b;--m:#64748b;--sh:0 1px 3px rgba(0,0,0,.06);--sh-lg:0 10px 25px rgba(0,0,0,.08)}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t);min-height:100vh}
+  .bg{position:fixed;inset:0;z-index:-1;background:linear-gradient(135deg,#667eea15,#764ba215,#f093fb08,#f5576c08);background-size:400% 400%;animation:g 15s ease infinite}
+  @keyframes g{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .w{max-width:1000px;margin:0 auto;padding:1.5rem}
 
-  /* Animated gradient bg */
-  .bg-grad{position:fixed;inset:0;z-index:-1;background:linear-gradient(135deg,#667eea20,#764ba220,#f093fb10,#f5576c10);background-size:400% 400%;animation:grad 15s ease infinite}
-  @keyframes grad{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+  .hdr{text-align:center;padding:2rem 0 1rem}
+  .hdr .logo{display:inline-flex;align-items:center;gap:.5rem;background:var(--s);border:1px solid var(--b);padding:.4rem 1rem;border-radius:50px;font-weight:700;font-size:1rem;box-shadow:var(--sh)}
+  .hdr .logo span{background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hdr h1{font-size:clamp(1.6rem,3.5vw,2.2rem);font-weight:700;margin:.5rem 0}
+  .hdr h1 em{font-style:normal;background:linear-gradient(135deg,var(--a),var(--a2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+  .hdr p{color:var(--m);font-size:.85rem}
 
-  .wrap{max-width:900px;margin:0 auto;padding:1.5rem}
-
-  /* Header */
-  .hdr{text-align:center;padding:2rem 0 1.5rem}
-  .hdr .logo{display:inline-flex;align-items:center;gap:.5rem;background:var(--surface);border:1px solid var(--border);padding:.5rem 1.2rem;border-radius:50px;font-weight:700;font-size:1.1rem;box-shadow:var(--shadow);margin-bottom:1rem}
-  .hdr .logo span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hdr h1{font-size:clamp(1.8rem,4vw,2.6rem);font-weight:700;margin-bottom:.4rem;line-height:1.2}
-  .hdr h1 em{font-style:normal;background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-  .hdr p{color:var(--muted);font-size:.9rem}
-
-  /* Search */
-  .search-box{display:flex;gap:.6rem;margin:1.5rem 0;max-width:600px;margin-left:auto;margin-right:auto}
-  .search-input{flex:1;padding:.75rem 1.2rem;border:2px solid var(--border);border-radius:12px;font-size:.95rem;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s;background:var(--surface)}
-  .search-input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
-  .search-input::placeholder{color:#94a3b8}
-  .search-btn{padding:.75rem 1.5rem;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;border-radius:12px;font-weight:600;font-size:.95rem;cursor:pointer;transition:transform .2s,box-shadow .2s;font-family:inherit}
+  .search-box{display:flex;gap:.5rem;margin:1.2rem 0;max-width:550px;margin-left:auto;margin-right:auto}
+  .search-input{flex:1;padding:.7rem 1rem;border:2px solid var(--b);border-radius:12px;font-size:.9rem;font-family:inherit;outline:none;transition:all .2s;background:var(--s)}
+  .search-input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(99,102,241,.1)}
+  .search-btn{padding:.7rem 1.3rem;background:linear-gradient(135deg,var(--a),var(--a2));color:#fff;border:none;border-radius:12px;font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;font-family:inherit}
   .search-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(99,102,241,.3)}
   .search-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
 
-  /* Tags */
-  .tags{display:flex;gap:.5rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.5rem}
-  .tag{padding:.3rem .7rem;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:.72rem;color:var(--muted);cursor:pointer;transition:all .2s}
-  .tag:hover{border-color:var(--accent);color:var(--accent);background:rgba(99,102,241,.05)}
+  .tags{display:flex;gap:.4rem;justify-content:center;flex-wrap:wrap;margin-bottom:1.2rem}
+  .tag{padding:.25rem .6rem;background:var(--s);border:1px solid var(--b);border-radius:20px;font-size:.7rem;color:var(--m);cursor:pointer;transition:all .2s}
+  .tag:hover{border-color:var(--a);color:var(--a)}
 
-  /* Progress */
-  .prog{width:100%;height:3px;background:var(--border);border-radius:2px;margin-bottom:1.5rem;overflow:hidden;display:none}
-  .prog.show{display:block}
-  .prog-f{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));width:0%;transition:width .3s;border-radius:2px}
+  /* Store Browser — the new scanning visual */
+  .store-browser{background:var(--s);border:1px solid var(--b);border-radius:14px;overflow:hidden;margin-bottom:1.5rem;box-shadow:var(--sh);display:none}
+  .store-browser.show{display:block;animation:fadeUp .4s ease}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
 
-  /* Status */
-  .status{display:flex;align-items:center;gap:.6rem;justify-content:center;margin-bottom:1.5rem;font-size:.85rem;color:var(--muted);display:none}
-  .status.show{display:flex}
-  .status .spin{width:16px;height:16px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite}
-  @keyframes spin{to{transform:rotate(360deg)}}
+  .browser-bar{padding:.5rem .8rem;background:#f8fafc;border-bottom:1px solid var(--b);display:flex;align-items:center;gap:.5rem}
+  .browser-bar .dots{display:flex;gap:.3rem}
+  .browser-bar .dot{width:8px;height:8px;border-radius:50%}
+  .browser-bar .dot.r{background:#ff5f57}.browser-bar .dot.y{background:#febc2e}.browser-bar .dot.g{background:#28c840}
+  .browser-bar .url{flex:1;background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:.25rem .6rem;font-size:.65rem;color:var(--m);font-family:'JetBrains Mono',monospace;margin-left:.5rem}
 
-  /* Log */
-  .log-box{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1rem;margin-bottom:1.5rem;max-height:200px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:.7rem;line-height:1.7;display:none;box-shadow:var(--shadow)}
-  .log-box.show{display:block}
-  .log-box::-webkit-scrollbar{width:4px}
-  .log-box::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-  .l-ok{color:var(--green)}.l-info{color:var(--accent)}.l-dim{color:var(--muted)}.l-w{color:var(--text);font-weight:700}
+  .browser-body{padding:1rem;min-height:200px;position:relative}
 
-  /* Results */
-  .results{display:none;margin-bottom:1.5rem}
-  .results.show{display:block;animation:fadeUp .5s ease}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  /* Store cards inside browser */
+  .store-card{display:flex;align-items:center;gap:.8rem;padding:.6rem;border:1px solid var(--b);border-radius:10px;margin-bottom:.5rem;transition:all .3s;opacity:0;transform:translateX(-20px)}
+  .store-card.visible{opacity:1;transform:translateX(0)}
+  .store-card .store-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+  .store-card .store-icon.amazon{background:#ff990020}.store-card .store-icon.ebay{background:#e5323820}
+  .store-card .store-icon.bestbuy{background:#0046be20}.store-card .store-icon.walmart{background:#0071dc20}
+  .store-card .store-icon.target{background:#cc000020}.store-card .store-icon.google{background:#4285f420}
+  .store-card .store-info{flex:1}
+  .store-card .store-name{font-size:.8rem;font-weight:600}
+  .store-card .store-status{font-size:.65rem;color:var(--m)}
+  .store-card .store-status.done{color:var(--g)}
+  .store-card .store-badge{padding:.2rem .5rem;border-radius:6px;font-size:.6rem;font-weight:700}
+  .store-card .store-badge.scanning{background:rgba(99,102,241,.1);color:var(--a);animation:pulse 1s infinite}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  .store-card .store-badge.done{background:rgba(16,185,129,.1);color:var(--g)}
 
-  .section-title{font-size:1rem;font-weight:700;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
+  /* Product reveal */
+  .products-area{display:none;margin-bottom:1.5rem}
+  .products-area.show{display:block;animation:fadeUp .5s ease}
 
-  /* Product cards */
-  .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.8rem;margin-bottom:1.5rem}
-  .prod{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;transition:all .2s;box-shadow:var(--shadow);position:relative;overflow:hidden}
-  .prod:hover{transform:translateY(-2px);box-shadow:var(--shadow-lg);border-color:var(--accent)}
-  .prod .badge{position:absolute;top:.6rem;right:.6rem;padding:.2rem .5rem;border-radius:6px;font-size:.6rem;font-weight:700;text-transform:uppercase}
-  .prod .badge.best{background:rgba(16,185,129,.1);color:var(--green)}
-  .prod .badge.cheap{background:rgba(245,158,11,.1);color:var(--yellow)}
-  .prod .badge.premium{background:rgba(99,102,241,.1);color:var(--accent)}
-  .prod .source{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-bottom:.3rem}
-  .prod .title{font-size:.85rem;font-weight:600;line-height:1.3;margin-bottom:.5rem;min-height:2.2rem}
-  .prod .price{font-size:1.4rem;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace;margin-bottom:.3rem}
-  .prod .meta{display:flex;gap:.8rem;font-size:.7rem;color:var(--muted)}
-  .prod .meta .stars{color:var(--yellow)}
-  .prod .actions{margin-top:.6rem;display:flex;gap:.4rem}
-  .prod .btn-sm{flex:1;padding:.4rem;border:1px solid var(--border);border-radius:8px;background:var(--surface);font-size:.7rem;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit}
-  .prod .btn-sm:hover{border-color:var(--accent);color:var(--accent)}
-  .prod .btn-sm.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
-  .prod .btn-sm.primary:hover{background:var(--accent2)}
+  .section-title{font-size:.95rem;font-weight:700;margin-bottom:.7rem;display:flex;align-items:center;gap:.4rem}
 
-  /* Comparison table */
-  .comp-table{width:100%;border-collapse:collapse;background:var(--surface);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);margin-bottom:1.5rem}
-  .comp-table th{padding:.6rem .8rem;text-align:left;font-size:.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;background:var(--bg);border-bottom:1px solid var(--border)}
-  .comp-table td{padding:.6rem .8rem;border-bottom:1px solid var(--border);font-size:.8rem}
-  .comp-table .highlight{background:rgba(99,102,241,.04);font-weight:600}
-  .comp-table .price-cell{font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--accent)}
-  .comp-table .best-cell{color:var(--green);font-weight:700}
+  .products{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:.7rem;margin-bottom:1.2rem}
+  .prod{background:var(--card);border:1px solid var(--b);border-radius:12px;padding:.9rem;transition:all .3s;box-shadow:var(--sh);position:relative;overflow:hidden;opacity:0;transform:translateY(15px)}
+  .prod.visible{opacity:1;transform:translateY(0)}
+  .prod:hover{transform:translateY(-2px);box-shadow:var(--sh-lg);border-color:var(--a)}
+  .prod .badge{position:absolute;top:.5rem;right:.5rem;padding:.15rem .4rem;border-radius:5px;font-size:.55rem;font-weight:700;text-transform:uppercase}
+  .prod .badge.best{background:rgba(16,185,129,.1);color:var(--g)}
+  .prod .badge.cheap{background:rgba(245,158,11,.1);color:var(--y)}
+  .prod .badge.premium{background:rgba(99,102,241,.1);color:var(--a)}
+  .prod .source{font-size:.6rem;color:var(--m);text-transform:uppercase;margin-bottom:.2rem}
+  .prod .title{font-size:.8rem;font-weight:600;line-height:1.25;margin-bottom:.4rem;min-height:2rem}
+  .prod .price{font-size:1.3rem;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace;margin-bottom:.2rem}
+  .prod .meta{display:flex;gap:.6rem;font-size:.65rem;color:var(--m)}
+  .prod .meta .stars{color:var(--y)}
+  .prod .btns{margin-top:.5rem;display:flex;gap:.3rem}
+  .prod .btn-sm{flex:1;padding:.35rem;border:1px solid var(--b);border-radius:7px;background:var(--s);font-size:.65rem;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;font-family:inherit;text-decoration:none;color:var(--t)}
+  .prod .btn-sm:hover{border-color:var(--a);color:var(--a)}
+  .prod .btn-sm.primary{background:var(--a);color:#fff;border-color:var(--a)}
+  .prod .btn-sm.primary:hover{background:var(--a2)}
 
-  /* Review card */
-  .review-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:1.2rem;margin-bottom:1rem;box-shadow:var(--shadow)}
-  .review-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.8rem}
-  .review-header .sentiment{padding:.3rem .7rem;border-radius:8px;font-size:.7rem;font-weight:700}
-  .review-header .sentiment.pos{background:rgba(16,185,129,.1);color:var(--green)}
-  .review-header .sentiment.neg{background:rgba(239,68,68,.1);color:var(--red)}
-  .review-header .sentiment.mix{background:rgba(245,158,11,.1);color:var(--yellow)}
-  .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+  /* Comparison */
+  .comp-table{width:100%;border-collapse:collapse;background:var(--s);border-radius:10px;overflow:hidden;box-shadow:var(--sh);margin-bottom:1.2rem}
+  .comp-table th{padding:.5rem .7rem;text-align:left;font-size:.65rem;color:var(--m);text-transform:uppercase;background:var(--bg);border-bottom:1px solid var(--b)}
+  .comp-table td{padding:.5rem .7rem;border-bottom:1px solid var(--b);font-size:.75rem}
+  .comp-table .hl{background:rgba(16,185,129,.04);font-weight:600}
+  .comp-table .pc{font-weight:700;font-family:'JetBrains Mono',monospace;color:var(--a)}
+  .comp-table .bc{color:var(--g);font-weight:700}
+
+  /* Reviews */
+  .review-card{background:var(--s);border:1px solid var(--b);border-radius:12px;padding:1rem;margin-bottom:1rem;box-shadow:var(--sh)}
+  .review-h{display:flex;align-items:center;gap:.5rem;margin-bottom:.7rem}
+  .review-h .sent{padding:.25rem .6rem;border-radius:7px;font-size:.65rem;font-weight:700}
+  .review-h .sent.pos{background:rgba(16,185,129,.1);color:var(--g)}
+  .review-grid{display:grid;grid-template-columns:1fr 1fr;gap:.8rem}
   @media(max-width:600px){.review-grid{grid-template-columns:1fr}}
-  .review-col h4{font-size:.8rem;margin-bottom:.4rem;display:flex;align-items:center;gap:.3rem}
-  .review-col .item{font-size:.75rem;color:var(--muted);padding:.2rem 0}
+  .review-col h4{font-size:.75rem;margin-bottom:.3rem}
+  .review-col .item{font-size:.7rem;color:var(--m);padding:.15rem 0}
 
-  /* AI Recommendation */
-  .ai-box{background:linear-gradient(135deg,rgba(99,102,241,.05),rgba(139,92,246,.05));border:1px solid rgba(99,102,241,.15);border-radius:12px;padding:1.2rem;margin-bottom:1.5rem;box-shadow:var(--shadow)}
-  .ai-box h3{font-size:.9rem;margin-bottom:.8rem;display:flex;align-items:center;gap:.4rem}
-  .ai-box .picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.6rem}
-  .ai-pick{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.8rem;text-align:center}
-  .ai-pick .label{font-size:.65rem;color:var(--muted);text-transform:uppercase;margin-bottom:.3rem}
-  .ai-pick .name{font-size:.8rem;font-weight:600;margin-bottom:.2rem}
-  .ai-pick .pick-price{font-size:1.1rem;font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace}
+  /* AI Picks */
+  .ai-box{background:linear-gradient(135deg,rgba(99,102,241,.05),rgba(139,92,246,.05));border:1px solid rgba(99,102,241,.15);border-radius:12px;padding:1rem;margin-bottom:1.2rem;box-shadow:var(--sh)}
+  .ai-box h3{font-size:.85rem;margin-bottom:.6rem}
+  .ai-picks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:.5rem}
+  .ai-pick{background:var(--s);border:1px solid var(--b);border-radius:10px;padding:.7rem;text-align:center}
+  .ai-pick .label{font-size:.6rem;color:var(--m);text-transform:uppercase;margin-bottom:.2rem}
+  .ai-pick .name{font-size:.75rem;font-weight:600;margin-bottom:.15rem}
+  .ai-pick .pp{font-size:1rem;font-weight:700;color:var(--a);font-family:'JetBrains Mono',monospace}
 
-  .ft{text-align:center;padding:1.5rem 0;border-top:1px solid var(--border);margin-top:1rem}
-  .ft p{color:var(--muted);font-size:.72rem}
-  .ft a{color:var(--accent);text-decoration:none}
+  .ft{text-align:center;padding:1.5rem 0;border-top:1px solid var(--b)}
+  .ft p{color:var(--m);font-size:.7rem}
+  .ft a{color:var(--a);text-decoration:none}
 </style>
 </head>
 <body>
-<div class="bg-grad"></div>
-
-<div class="wrap">
+<div class="bg"></div>
+<div class="w">
   <div class="hdr">
     <div class="logo">🛒 <span>Coasty</span> Shopping</div>
     <h1>Find the <em>best deal</em></h1>
-    <p>AI-powered shopping assistant — compares prices, reads reviews, recommends</p>
+    <p>Watch the AI agent browse stores and find deals for you</p>
   </div>
 
   <div class="search-box">
-    <input class="search-input" id="searchInput" placeholder="What are you looking for? (e.g. iPhone 16, Gaming laptop, Sony headphones)" onkeydown="if(event.key==='Enter')doSearch()">
-    <button class="search-btn" id="searchBtn" onclick="doSearch()">🔍 Search</button>
+    <input class="search-input" id="inp" placeholder="Search anything... (e.g. iPhone 16, Gaming laptop)" onkeydown="if(event.key==='Enter')search()">
+    <button class="search-btn" id="btn" onclick="search()">🔍 Search</button>
   </div>
 
   <div class="tags">
-    <span class="tag" onclick="quickSearch('iPhone 16 Pro')">📱 iPhone 16</span>
-    <span class="tag" onclick="quickSearch('Sony WH-1000XM5')">🎧 Sony XM5</span>
-    <span class="tag" onclick="quickSearch('Gaming laptop')">💻 Gaming Laptop</span>
-    <span class="tag" onclick="quickSearch('Nike Air Max')">👟 Nike Air Max</span>
-    <span class="tag" onclick="quickSearch('iPad Air')">📱 iPad Air</span>
-    <span class="tag" onclick="quickSearch('Air Fryer')">🍳 Air Fryer</span>
+    <span class="tag" onclick="qs('iPhone 16 Pro')">📱 iPhone 16</span>
+    <span class="tag" onclick="qs('Sony WH-1000XM5')">🎧 Sony XM5</span>
+    <span class="tag" onclick="qs('Gaming laptop')">💻 Gaming Laptop</span>
+    <span class="tag" onclick="qs('Nike Air Max')">👟 Nike Air Max</span>
+    <span class="tag" onclick="qs('Air Fryer')">🍳 Air Fryer</span>
   </div>
 
-  <div class="prog" id="prog"><div class="prog-f" id="progF"></div></div>
-
-  <div class="status" id="status">
-    <div class="spin"></div>
-    <span id="statusText">Searching...</span>
+  <!-- Store Browser — visual scanning -->
+  <div class="store-browser" id="browser">
+    <div class="browser-bar">
+      <div class="dots"><div class="dot r"></div><div class="dot y"></div><div class="dot g"></div></div>
+      <div class="url" id="bUrl">browsing...</div>
+    </div>
+    <div class="browser-body" id="bBody"></div>
   </div>
 
-  <div class="log-box" id="logBox"></div>
-
-  <div class="results" id="results">
+  <!-- Results -->
+  <div class="products-area" id="results">
     <div class="section-title">📦 Products Found</div>
     <div class="products" id="products"></div>
 
     <div class="section-title">📊 Price Comparison</div>
-    <table class="comp-table" id="compTable">
+    <table class="comp-table">
       <thead><tr><th>Store</th><th>Product</th><th>Price</th><th>Rating</th><th>Reviews</th></tr></thead>
       <tbody id="compBody"></tbody>
     </table>
 
     <div class="section-title">⭐ Reviews</div>
     <div class="review-card">
-      <div class="review-header">
-        <span class="sentiment pos">👍 Mostly Positive</span>
-        <span style="font-size:.8rem;color:var(--muted)">Based on 2,847 reviews</span>
+      <div class="review-h">
+        <span class="sent pos">👍 Mostly Positive</span>
+        <span style="font-size:.75rem;color:var(--m)">Based on 2,847 reviews</span>
       </div>
       <div class="review-grid">
-        <div class="review-col">
-          <h4>✅ Pros</h4>
-          <div class="item">• Excellent build quality</div>
-          <div class="item">• Great performance</div>
-          <div class="item">• Beautiful design</div>
-          <div class="item">• Good battery life</div>
-        </div>
-        <div class="review-col">
-          <h4>⚠️ Cons</h4>
-          <div class="item">• Premium price point</div>
-          <div class="item">• Could be lighter</div>
-          <div class="item">• Limited color options</div>
-        </div>
+        <div class="review-col"><h4>✅ Pros</h4><div class="item">• Excellent build quality</div><div class="item">• Great performance</div><div class="item">• Good value for money</div></div>
+        <div class="review-col"><h4>⚠️ Cons</h4><div class="item">• Premium price</div><div class="item">• Could be lighter</div></div>
       </div>
     </div>
 
     <div class="section-title">🧠 AI Recommendation</div>
     <div class="ai-box">
       <h3>🤖 Coasty's Top Picks</h3>
-      <div class="picks" id="aiPicks"></div>
+      <div class="ai-picks" id="aiPicks"></div>
     </div>
   </div>
 
@@ -193,171 +182,129 @@
 </div>
 
 <script>
-const searchInput=document.getElementById('searchInput'),searchBtn=document.getElementById('searchBtn');
-const prog=document.getElementById('prog'),progF=document.getElementById('progF');
-const statusEl=document.getElementById('status'),statusText=document.getElementById('statusText');
-const logBox=document.getElementById('logBox'),results=document.getElementById('results');
-const productsEl=document.getElementById('products'),compBody=document.getElementById('compBody');
-const aiPicks=document.getElementById('aiPicks');
+const stores=[
+  {name:'Amazon',icon:'📦',cls:'amazon',url:'amazon.com/s?k=',products:4},
+  {name:'eBay',icon:'🏷️',cls:'ebay',url:'ebay.com/sch/i.html?_nkw=',products:3},
+  {name:'Best Buy',icon:'🏪',cls:'bestbuy',url:'bestbuy.com/site/searchpage.jsp?st=',products:2},
+  {name:'Walmart',icon:'🛒',cls:'walmart',url:'walmart.com/search?q=',products:3},
+  {name:'Target',icon:'🎯',cls:'target',url:'target.com/s?searchTerm=',products:2},
+  {name:'Google Shopping',icon:'🛍️',cls:'google',url:'shopping.google.com/search?q=',products:5},
+];
 
-function quickSearch(q){searchInput.value=q;doSearch()}
+function qs(q){document.getElementById('inp').value=q;search()}
 
-async function doSearch(){
-  const q=searchInput.value.trim();
+async function search(){
+  const q=document.getElementById('inp').value.trim();
   if(!q)return;
-  
-  searchBtn.disabled=true;searchBtn.textContent='⏳ Searching...';
-  prog.classList.add('show');statusEl.classList.add('show');logBox.classList.add('show');
-  results.classList.remove('show');logBox.innerHTML='';
+  const btn=document.getElementById('btn'),browser=document.getElementById('browser');
+  const bUrl=document.getElementById('bUrl'),bBody=document.getElementById('bBody');
+  const results=document.getElementById('results');
 
-  const addLog=(h)=>{logBox.innerHTML+=h+'<br>';logBox.scrollTop=logBox.scrollHeight};
-  const setP=(p)=>{progF.style.width=p+'%'};
-  const setStatus=(t)=>{statusText.textContent=t};
+  btn.disabled=true;btn.textContent='⏳';
+  browser.classList.add('show');results.classList.remove('show');
+  bBody.innerHTML='';
 
-  setStatus('Scanning marketplaces...');setP(10);
-  addLog('<span class="l-info">🛒 Starting search for: '+q+'</span>');
-  await wait(400);
+  // Animate through each store
+  for(let i=0;i<stores.length;i++){
+    const s=stores[i];
+    const eq=encodeURIComponent(q);
 
-  // Amazon
-  setStatus('Checking Amazon...');setP(20);
-  addLog('<span class="l-info">📦 Scanning Amazon...</span>');
+    // Update URL bar
+    bUrl.textContent=s.url+eq;
+
+    // Add store card with scanning state
+    const card=document.createElement('div');
+    card.className='store-card';
+    card.innerHTML=`<div class="store-icon ${s.cls}">${s.icon}</div>
+      <div class="store-info"><div class="store-name">${s.name}</div><div class="store-status">Searching "${q}"...</div></div>
+      <div class="store-badge scanning">Scanning</div>`;
+    bBody.appendChild(card);
+    await wait(100);
+    card.classList.add('visible');
+
+    // Simulate scanning
+    await wait(600+Math.random()*400);
+
+    // Update to done
+    card.querySelector('.store-status').textContent=`${s.products} products found`;
+    card.querySelector('.store-status').classList.add('done');
+    card.querySelector('.store-badge').textContent='✓ Done';
+    card.querySelector('.store-badge').className='store-badge done';
+  }
+
+  // Final step — AI analysis
+  bUrl.textContent='coasty.ai/v1/predict — analyzing...';
   await wait(600);
-  addLog('<span class="l-ok">✅ Found 4 products</span>');
+  bUrl.textContent='Done! Found '+stores.reduce((a,s)=>a+s.products,0)+' products across '+stores.length+' stores';
 
-  // eBay
-  setStatus('Checking eBay...');setP(35);
-  addLog('<span class="l-info">🏷️ Scanning eBay...</span>');
-  await wait(500);
-  addLog('<span class="l-ok">✅ Found 3 products</span>');
-
-  // Google Shopping
-  setStatus('Checking Google Shopping...');setP(50);
-  addLog('<span class="l-info">🛍️ Scanning Google Shopping...</span>');
-  await wait(500);
-  addLog('<span class="l-ok">✅ Found 5 results</span>');
-
-  // Best Buy
-  setStatus('Checking Best Buy...');setP(60);
-  addLog('<span class="l-info">🏪 Scanning Best Buy...</span>');
-  await wait(400);
-  addLog('<span class="l-ok">✅ Found 2 products</span>');
-
-  // Reviews
-  setStatus('Analyzing reviews...');setP(75);
-  addLog('<span class="l-info">⭐ Analyzing reviews...</span>');
-  await wait(600);
-  addLog('<span class="l-ok">✅ 2,847 reviews analyzed — Mostly Positive</span>');
-
-  // AI
-  setStatus('Getting AI recommendation...');setP(90);
-  addLog('<span class="l-info">🧠 Coasty AI analyzing...</span>');
-  await wait(800);
-  addLog('<span class="l-ok">✅ Recommendation ready</span>');
-
-  setP(100);setStatus('Done!');
-  addLog('<span class="l-w">✅ Search complete — 14 products found</span>');
-
-  // Generate mock products based on query
-  const products=generateProducts(q);
-  renderProducts(products);
-  renderCompTable(products);
-  renderAIPicks(products,q);
-
+  // Show results
   await wait(300);
+  const products=genProducts(q);
+  renderProducts(products,q);
+  renderComp(products);
+  renderAI(products,q);
   results.classList.add('show');
-  searchBtn.disabled=false;searchBtn.textContent='🔍 Search';
-  prog.classList.remove('show');statusEl.classList.remove('show');
+
+  btn.disabled=false;btn.textContent='🔍 Search';
 }
 
-function generateProducts(q){
-  const basePrice=Math.floor(Math.random()*500)+100;
+function genProducts(q){
+  const base=Math.floor(Math.random()*500)+100;
   return[
-    {source:'Amazon',title:q+' — Latest Model',price:basePrice,rating:4.7,reviews:1243,badge:'best'},
-    {source:'eBay',title:q+' — Open Box',price:basePrice*0.85,rating:4.3,reviews:456,badge:'cheap'},
-    {source:'Best Buy',title:q+' — Official Store',price:basePrice*1.05,rating:4.8,reviews:2891,badge:'premium'},
-    {source:'Walmart',title:q+' — Great Value',price:basePrice*0.92,rating:4.1,reviews:678,badge:''},
-    {source:'Target',title:q+' — Exclusive',price:basePrice*0.98,rating:4.5,reviews:345,badge:''},
-    {source:'Google Shopping',title:q+' — Multi-store',price:basePrice*0.95,rating:4.4,reviews:890,badge:''},
+    {source:'Amazon',title:q+' — Latest Model',price:base,rating:4.7,reviews:1243,badge:'best'},
+    {source:'eBay',title:q+' — Open Box',price:base*0.85,rating:4.3,reviews:456,badge:'cheap'},
+    {source:'Best Buy',title:q+' — Official Store',price:base*1.05,rating:4.8,reviews:2891,badge:'premium'},
+    {source:'Walmart',title:q+' — Great Value',price:base*0.92,rating:4.1,reviews:678,badge:''},
+    {source:'Target',title:q+' — Exclusive',price:base*0.98,rating:4.5,reviews:345,badge:''},
+    {source:'Google Shopping',title:q+' — Best Price',price:base*0.88,rating:4.4,reviews:890,badge:''},
   ];
 }
 
-function getStoreUrl(source,query){
-  const q=encodeURIComponent(query);
-  const urls={
-    'Amazon':`https://www.amazon.com/s?k=${q}`,
-    'eBay':`https://www.ebay.com/sch/i.html?_nkw=${q}`,
-    'Best Buy':`https://www.bestbuy.com/site/searchpage.jsp?st=${q}`,
-    'Walmart':`https://www.walmart.com/search?q=${q}`,
-    'Target':`https://www.target.com/s?searchTerm=${q}`,
-    'Google Shopping':`https://shopping.google.com/search?q=${q}`,
-    'Marketplace':`https://www.amazon.com/s?k=${q}`,
-  };
-  return urls[source]||`https://www.google.com/search?q=${q}+buy+online`;
+function storeUrl(source,q){
+  const eq=encodeURIComponent(q);
+  const u={'Amazon':`https://amazon.com/s?k=${eq}`,'eBay':`https://ebay.com/sch/i.html?_nkw=${eq}`,'Best Buy':`https://bestbuy.com/site/searchpage.jsp?st=${eq}`,'Walmart':`https://walmart.com/search?q=${eq}`,'Target':`https://target.com/s?searchTerm=${eq}`,'Google Shopping':`https://shopping.google.com/search?q=${eq}`};
+  return u[source]||`https://google.com/search?q=${eq}+buy`;
 }
 
-function renderProducts(products){
-  const q=searchInput.value.trim();
+function renderProducts(products,q){
   let html='';
-  products.forEach(p=>{
-    const badgeHTML=p.badge?`<div class="badge ${p.badge}">${p.badge==='best'?'🏆 Best':p.badge==='cheap'?'💰 Budget':'💎 Premium'}</div>`:'';
-    const url=getStoreUrl(p.source,q);
-    html+=`<div class="prod">
-      ${badgeHTML}
+  products.forEach((p,i)=>{
+    const badge=p.badge?`<div class="badge ${p.badge}">${p.badge==='best'?'🏆 Best':p.badge==='cheap'?'💰 Budget':'💎 Premium'}</div>`:'';
+    const url=storeUrl(p.source,q);
+    html+=`<div class="prod" id="p${i}">
+      ${badge}
       <div class="source">${p.source}</div>
       <div class="title">${p.title}</div>
       <div class="price">$${p.price.toFixed(2)}</div>
-      <div class="meta">
-        ${p.rating?`<span class="stars">⭐ ${p.rating}</span>`:''}
-        ${p.reviews?`<span>${p.reviews.toLocaleString()} reviews</span>`:''}
-      </div>
-      <div class="actions">
-        <a href="${url}" target="_blank" class="btn-sm primary" style="text-decoration:none;display:block;text-align:center">View Deal</a>
-        <button class="btn-sm" onclick="alert('Added to compare list!')">Compare</button>
+      <div class="meta">${p.rating?`<span class="stars">⭐ ${p.rating}</span>`:''}${p.reviews?`<span>${p.reviews.toLocaleString()} reviews</span>`:''}</div>
+      <div class="btns">
+        <a href="${url}" target="_blank" class="btn-sm primary">View Deal →</a>
+        <button class="btn-sm" onclick="this.textContent='✓ Added';this.style.background='var(--g)';this.style.color='#fff';this.style.borderColor='var(--g)'">Compare</button>
       </div>
     </div>`;
   });
-  productsEl.innerHTML=html;
+  document.getElementById('products').innerHTML=html;
+  // Animate cards
+  products.forEach((_,i)=>{setTimeout(()=>{document.getElementById('p'+i).classList.add('visible')},i*120)});
 }
 
-function renderCompTable(products){
+function renderComp(products){
   let html='';
   const sorted=[...products].sort((a,b)=>a.price-b.price);
   sorted.forEach((p,i)=>{
-    const cls=i===0?'highlight':'';
-    const priceCls=i===0?'best-cell':'price-cell';
-    html+=`<tr class="${cls}">
-      <td>${p.source}</td>
-      <td>${p.title.substring(0,40)}...</td>
-      <td class="${priceCls}">$${p.price.toFixed(2)}</td>
-      <td>${p.rating?'⭐ '+p.rating:'—'}</td>
-      <td>${p.reviews?p.reviews.toLocaleString():'—'}</td>
-    </tr>`;
+    const cls=i===0?'hl':'';
+    const pc=i===0?'bc':'pc';
+    html+=`<tr class="${cls}"><td>${p.source}</td><td>${p.title.substring(0,35)}...</td><td class="${pc}">$${p.price.toFixed(2)}</td><td>${p.rating?'⭐ '+p.rating:'—'}</td><td>${p.reviews?p.reviews.toLocaleString():'—'}</td></tr>`;
   });
-  compBody.innerHTML=html;
+  document.getElementById('compBody').innerHTML=html;
 }
 
-function renderAIPicks(products,q){
-  const sorted=[...products].sort((a,b)=>a.price-b.price);
-  const cheapest=sorted[0];
-  const mid=sorted[Math.floor(sorted.length/2)];
-  const premium=sorted[sorted.length-1];
-  
-  aiPicks.innerHTML=`
-    <div class="ai-pick">
-      <div class="label">💰 Best Budget</div>
-      <div class="name">${cheapest.source}</div>
-      <div class="pick-price">$${cheapest.price.toFixed(2)}</div>
-    </div>
-    <div class="ai-pick">
-      <div class="label">⚖️ Best Value</div>
-      <div class="name">${mid.source}</div>
-      <div class="pick-price">$${mid.price.toFixed(2)}</div>
-    </div>
-    <div class="ai-pick">
-      <div class="label">💎 Best Quality</div>
-      <div class="name">${premium.source}</div>
-      <div class="pick-price">$${premium.price.toFixed(2)}</div>
-    </div>
+function renderAI(products,q){
+  const s=[...products].sort((a,b)=>a.price-b.price);
+  document.getElementById('aiPicks').innerHTML=`
+    <div class="ai-pick"><div class="label">💰 Best Budget</div><div class="name">${s[0].source}</div><div class="pp">$${s[0].price.toFixed(2)}</div></div>
+    <div class="ai-pick"><div class="label">⚖️ Best Value</div><div class="name">${s[Math.floor(s.length/2)].source}</div><div class="pp">$${s[Math.floor(s.length/2)].price.toFixed(2)}</div></div>
+    <div class="ai-pick"><div class="label">💎 Best Quality</div><div class="name">${s[s.length-1].source}</div><div class="pp">$${s[s.length-1].price.toFixed(2)}</div></div>
   `;
 }
 
