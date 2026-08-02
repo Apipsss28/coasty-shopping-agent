@@ -281,10 +281,26 @@ function generateProducts(q){
   ];
 }
 
+function getStoreUrl(source,query){
+  const q=encodeURIComponent(query);
+  const urls={
+    'Amazon':`https://www.amazon.com/s?k=${q}`,
+    'eBay':`https://www.ebay.com/sch/i.html?_nkw=${q}`,
+    'Best Buy':`https://www.bestbuy.com/site/searchpage.jsp?st=${q}`,
+    'Walmart':`https://www.walmart.com/search?q=${q}`,
+    'Target':`https://www.target.com/s?searchTerm=${q}`,
+    'Google Shopping':`https://shopping.google.com/search?q=${q}`,
+    'Marketplace':`https://www.amazon.com/s?k=${q}`,
+  };
+  return urls[source]||`https://www.google.com/search?q=${q}+buy+online`;
+}
+
 function renderProducts(products){
+  const q=searchInput.value.trim();
   let html='';
   products.forEach(p=>{
     const badgeHTML=p.badge?`<div class="badge ${p.badge}">${p.badge==='best'?'🏆 Best':p.badge==='cheap'?'💰 Budget':'💎 Premium'}</div>`:'';
+    const url=getStoreUrl(p.source,q);
     html+=`<div class="prod">
       ${badgeHTML}
       <div class="source">${p.source}</div>
@@ -295,8 +311,8 @@ function renderProducts(products){
         ${p.reviews?`<span>${p.reviews.toLocaleString()} reviews</span>`:''}
       </div>
       <div class="actions">
-        <button class="btn-sm primary">View Deal</button>
-        <button class="btn-sm">Compare</button>
+        <a href="${url}" target="_blank" class="btn-sm primary" style="text-decoration:none;display:block;text-align:center">View Deal</a>
+        <button class="btn-sm" onclick="alert('Added to compare list!')">Compare</button>
       </div>
     </div>`;
   });
